@@ -16,7 +16,7 @@ mkdir ThreeVJ
 cd ThreeVJ
 npm install --save three
 ```
-3. Insall Vite
+3. Insall Vite ( note it will be running over HTTPS, there is a directory with a Self Signed CERT for your browser which will be fallged as not valid, please ignore the error and accpet the cert )
 ```
 cd ThreeVJ
 npm install --save-dev vite
