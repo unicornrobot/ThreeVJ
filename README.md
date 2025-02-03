@@ -37,3 +37,6 @@ MIDI is handled by the browsers MIDI implenetation, and fed into a custom MIDI c
 cd ThreeVJ
 npx vite --host
 ```
+1. Open your browser to https://localhost:8080
+2. Accept the Self Signed Certificate
+3. Accept MIDI Access of the app from your browser
