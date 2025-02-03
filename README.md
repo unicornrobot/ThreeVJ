@@ -30,3 +30,10 @@ OSC is delivered to this app via WebSockets using [OSCtoBrowserViaWS](https://gi
 # MIDI Input
 
 MIDI is handled by the browsers MIDI implenetation, and fed into a custom MIDI control class.
+
+# How to run this
+
+```
+cd ThreeVJ
+npx vite --host
+```
