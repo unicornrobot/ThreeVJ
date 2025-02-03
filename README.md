@@ -40,3 +40,40 @@ npx vite --host
 1. Open your browser to https://localhost:8080
 2. Accept the Self Signed Certificate
 3. Accept MIDI Access of the app from your browser
+
+# Setting up your MIDI controlers to interact with animations
+
+All MIDI interaction is handled by a custom midi class called [MIDIMapper.js](https://github.com/leonyuhanov/ThreeVJ/blob/main/BoilerPlate/MIDIMapper.js) (which can be found in the BoilerPlate folder). 
+This class is contained within each animation added into the que system. to add a custom mapping you can call
+
+animSys.midi().addItem(MIDI_CHANEL_BYTE, MIDI_CC_ID, "a variable name you like", MAX_VALUE, DEFAULT_VALUE_ON_LOAD);
+
+so for example if you wanted to add a control to you animation alled "colourIncrement" assigned to MIDICC 1 on MIDI CHAN 1 with a max value of 10 and a preset value of 3 you would call the below
+```
+animSys.midi().addItem(176, 1, "colourIncrement", 10, 3);
+```
+To Read this value:(Reading a control will expire its ONCHANGE flag)
+```
+animSys.midi().getValue("colourIncrement");
+```
+To check if the MIDI INPUT has sent any updates to this control, for example if you set the value and only want the animation to change AFTER a changed midi input
+```
+if(animSys.midi().hasChanged("colourIncrement"))
+{
+  console.log(animSys.midi().getValue("colourIncrement"));
+}
+```
+For things like Pads where you just want to triger events you can do as follows:
+```
+animSys.midi().addItem(176, 2, "pad1", 1, 0);
+if(animSys.midi().hasChanged("pad1"))
+{
+  if(animSys.midi().getValue("pad1")==1)
+  {
+    console.log("Pad 1 was pushed");
+  }
+}
+```
+
+
+
