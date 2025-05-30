@@ -1,3 +1,4 @@
+
 //Note ON events are  0[144+MIDI CHANEL-1] 1[KEY ID] 2[VELOCITY]
 //Note OFF events are 0[128+MIDI CHANEL-1] 1[KEY ID] 2[VELOCITY] 
 class MIDIMapper

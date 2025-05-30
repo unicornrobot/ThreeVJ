@@ -31,7 +31,7 @@ Manufacturer[Microsoft Corporation]	Name[MIDIOUT2 (Launch Control XL)]	ID[output
 
 your debug will be completely different
 */
-var primaryMidiControler = ["Launch Control XL",""];		
+var primaryMidiControler = ["X-TOUCH MINI",""];		
 
 //---------------------------------------------------------------
 
@@ -137,20 +137,27 @@ function setUp()
 	cameraLookingAt = camera.position;
 	cameraLookingAt.z = 300;
 	camera.position.set( 0, 0, cameraLookingAt.z );	
+
+	
 	
 	document.onkeypress = function(e) 
 	{
-		
+		//CHANGE SCENES WITH KEYS 1 - 10
+		animSys.gotoIndex(camera, e.key);//0-10
+		renderScene.scene = animSys.scene();
+
+
 		//OPTIONAL USE:	Used to control and configure each animations automatic camera director
-		if(String.fromCharCode( e.which )=="q")
+		if(String.fromCharCode( e.which )=="1")
 		{
 			//Adds the current camera viewpoint to the list
-			animSys.cd().addPoints(camera.position);
+			//animSys.cd().addPoints(camera.position);
+	
 		}
 		else if(String.fromCharCode( e.which )=="c")
 		{
 			//clears the director
-			animSys.cd().clear();
+			//animSys.cd().clear();
 		}
 		else if(String.fromCharCode( e.which )=="s")
 		{
@@ -174,7 +181,7 @@ function setUp()
 	//-------------------	sets up global controlls for all animations such as next/prev/animation shortcutts via pads etc...	-------------------
 	globalControls();
 	//-------------------	Goto animation 0	-------------------
-	animSys.gotoIndex(camera, 9);
+	animSys.gotoIndex(camera, 2);//0-10
 	renderScene.scene = animSys.scene();
 	//-------------------	Init web MIDI	-------------------
 	navigator.requestMIDIAccess({sysex: true}).then(onMIDISuccess, onMIDIFailure);
@@ -191,38 +198,40 @@ function animationChange()
 function animation_1_setup()
 {
 	var objectCounter = 0, objectCount = 1;
-	
-	animSys.add("One", 60, animation_1_setup, animation_1_animate, 81, 37, "S");
+	//#1
+	animSys.add("One", 60, animation_1_setup, animation_1_animate, 8, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("cameraFOV", 45);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 	
-	animSys.midi().addItem(176, 1, "colourIncrement", 10, 3);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 50, 10);
-	animSys.midi().addItem(176, 3, "widthScaler", 0.5, 0.1);
-	animSys.midi().addItem(176, 4, "heightScaler", 0.5, 0.1);
-	animSys.midi().addItem(176, 5, "depthScaler", 2, 2);
-	animSys.midi().addItem(176, 6, "rotationalIncrementScaler", 2, 2);
-	animSys.midi().addItem(176, 7, "trailSpacing", 10, 1);
-	animSys.midi().addItem(176, 8, "trailSpacingLFO", 10, 1);
+	animSys.midi().addItem(186, 1, "colourIncrement", 10, 3);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 50, 10);
+	animSys.midi().addItem(186, 3, "widthScaler", 0.5, 0.1);
+	animSys.midi().addItem(186, 4, "heightScaler", 0.5, 0.1);
+	animSys.midi().addItem(186, 5, "depthScaler", 2, 2);
+	animSys.midi().addItem(186, 6, "rotationalIncrementScaler", 2, 2);
+	animSys.midi().addItem(186, 7, "trailSpacing", 10, 1);
+	animSys.midi().addItem(186, 8, "trailSpacingLFO", 10, 1);
 
-	animSys.midi().addItem(176, 9, "lineRotationSpeed", 2, 0.1);
-	animSys.midi().addItem(176, 10, "trailSpeed", 10, 1);
+	animSys.midi().addItem(186, 9, "lineRotationSpeed", 2, 0.1);
+	animSys.midi().addItem(186, 10, "trailSpeed", 10, 1);
 		
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 3, 1.6);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 11, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 12, "bloomStrength", 3, 1.6);
+	animSys.midi().addItem(186, 13, "bloomRadius", 1, 1);
 	
-	animSys.midi().addItem(176, 17, "xRotate", 2, 0);
-	animSys.midi().addItem(176, 18, "yRotate", 2, 0);
-	animSys.midi().addItem(176, 19, "zRotate", 2, 0);
+	animSys.midi().addItem(186, 14, "xRotate", 2, 0);
+	animSys.midi().addItem(186, 15, "yRotate", 2, 0);
+	animSys.midi().addItem(186, 16, "zRotate", 2, 0);
 	
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 1);
-	animSys.midi().addItem(176, 32, "lightIntensity", 20, 1);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 20, 20);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 0);
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 17, "autoRotateSpeed", 10, 1);
+	animSys.midi().addItem(186, 18, "lightIntensity", 20, 1);
+	animSys.midi().addItem(154, 0, "autoRotate", 1, 0); //push knob 1
+	animSys.midi().addItem(186, 19, "cameraMotionSpeed", 20, 20); //not used yet
+	animSys.midi().addItem(186, 20, "directCamera_LOCK", 1, 0); //not used yet
+	animSys.midi().addItem(186, 21, "directCamera", 1, 0);//not used yet
+
+
 	
 	for(objectCounter=0; objectCounter<objectCount; objectCounter++)
 	{
@@ -241,38 +250,38 @@ function animation_1_setup()
 function animation_2_setup()
 {
 	var objectCounter = 0;
-	
-	animSys.add("Spiral Trails", 60, animation_2_setup, animation_2_animate, 82, 37, "S");
+	//#2
+	animSys.add("Spiral Trails", 60, animation_2_setup, animation_2_animate, 9, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("globalObjectGroup", new THREE.Object3D());
 	animSys.addGlobalVar("cameraFOV", 45);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 		
-	animSys.midi().addItem(176, 1, "colourIncrement", 10, 3);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 50, 10);
-	animSys.midi().addItem(176, 3, "widthScaler", 2, 1.1);
-	animSys.midi().addItem(176, 4, "heightScaler", 2, 1.1);
-	animSys.midi().addItem(176, 5, "depthScaler", 2, 2);
-	animSys.midi().addItem(176, 6, "rotationalIncrementScaler", 2, 2);
-	animSys.midi().addItem(176, 7, "innerGapRadius", 5, 2.4);
+	animSys.midi().addItem(186, 1, "colourIncrement", 10, 3);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 50, 10);
+	animSys.midi().addItem(186, 3, "widthScaler", 2, 1.1);
+	animSys.midi().addItem(186, 4, "heightScaler", 2, 1.1);
+	animSys.midi().addItem(186, 5, "depthScaler", 2, 2);
+	animSys.midi().addItem(186, 6, "rotationalIncrementScaler", 2, 2);
+	animSys.midi().addItem(186, 7, "innerGapRadius", 5, 2.4);
 
-	animSys.midi().addItem(176, 9, "lineRotationSpeed", 2, 0.1);
-	animSys.midi().addItem(176, 10, "trailSpeed", 10, 1);
+	animSys.midi().addItem(186, 9, "lineRotationSpeed", 2, 0.1); //slider A
+	animSys.midi().addItem(186, 10, "trailSpeed", 10, 1); //slider B
 		
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 3, 1.6);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 11, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 12, "bloomStrength", 3, 1.6);
+	animSys.midi().addItem(186, 13, "bloomRadius", 1, 1);
 	
-	animSys.midi().addItem(176, 17, "xRotate", 2, 0);
-	animSys.midi().addItem(176, 18, "yRotate", 2, 0);
-	animSys.midi().addItem(176, 19, "zRotate", 2, 0);
+	animSys.midi().addItem(186, 14, "xRotate", 2, 0);
+	animSys.midi().addItem(186, 15, "yRotate", 2, 0);
+	animSys.midi().addItem(186, 16, "zRotate", 2, 0);
 	
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 1);
-	animSys.midi().addItem(176, 32, "lightIntensity", 20, 1);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 20, 20);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 0);
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 17, "autoRotateSpeed", 10, 1);
+	animSys.midi().addItem(186, 18, "lightIntensity", 20, 1);
+	animSys.midi().addItem(154, 0, "autoRotate", 1, 0); //knob 1 push 
+	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 20);
+	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 0);
+	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
 	animSys.midi().addItem(144, 108, "orbitReset", 1, 0);
 	
 			
@@ -329,34 +338,35 @@ function animation_3_setup()
 {
 	var objectCounter = 0, objectCount=0;
 	
-	animSys.add("Orbital Spherical Trails", 60, animation_3_setup, animation_3_animate, 83, 37, "S");
+	animSys.add("Orbital Spherical Trails", 60, animation_3_setup, animation_3_animate, 10, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("cameraFOV", 45);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 			
-	animSys.midi().addItem(176, 1, "colourIncrement", 10, 3);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 50, 10);
-	animSys.midi().addItem(176, 3, "objectScale", 2, 0.25);
-	animSys.midi().addItem(176, 4, "xScale", 2, 1);
-	animSys.midi().addItem(176, 5, "yScale", 2, 1);
+	animSys.midi().addItem(186, 1, "colourIncrement", 10, 3);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 50, 10);
+	animSys.midi().addItem(186, 3, "objectScale", 2, 0.25);
+	animSys.midi().addItem(186, 4, "xScale", 2, 1);
+	animSys.midi().addItem(186, 5, "yScale", 2, 1);
 
-	animSys.midi().addItem(176, 9, "motionSpeed", 2, 0.1);
-	animSys.midi().addItem(176, 10, "rotationSpeed", 2, 0.1);
-	animSys.midi().addItem(176, 11, "radiusEnvelopIncrement", 10, 1);
-	animSys.midi().addItem(176, 12, "radiusSubEnvelopIncrement", 10, 0);
-	animSys.midi().addItem(176, 13, "trailSpeed", 0.1, 0.002);
+	animSys.midi().addItem(186, 9, "motionSpeed", 2, 0.1);//slider a
+	animSys.midi().addItem(186, 10, "rotationSpeed", 2, 0.1);//slider b
+
+	animSys.midi().addItem(186, 11, "radiusEnvelopIncrement", 10, 1);
+	animSys.midi().addItem(186, 12, "radiusSubEnvelopIncrement", 10, 0);
+	animSys.midi().addItem(186, 13, "trailSpeed", 0.1, 0.002);
 		
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 3, 1.6);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 14, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 15, "bloomStrength", 3, 1.6);
+	animSys.midi().addItem(186, 16, "bloomRadius", 1, 1);
 	
 	
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 1);
-	animSys.midi().addItem(176, 32, "lightIntensity", 20, 1);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 20, 1);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 0);
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 17, "autoRotateSpeed", 10, 1);
+	animSys.midi().addItem(186, 18, "lightIntensity", 20, 1);
+	animSys.midi().addItem(154, 0, "autoRotate", 1, 0); //knob 1 push
+	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 1);
+	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 0);
+	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
 	animSys.midi().addItem(144, 108, "orbitReset", 1, 0);
 	
 	objectCount = 3;
@@ -382,32 +392,32 @@ function animation_4_setup()
 {
 	var objectCounter = 0, objectCount=0;
 	
-	animSys.add("Torus", 60, animation_4_setup, animation_4_animate, 84, 37, "S");
+	animSys.add("Torus", 60, animation_4_setup, animation_4_animate, 11, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("cameraFOV", 45);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 			
-	animSys.midi().addItem(176, 1, "colourIncrement", 40, 2);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 5, 5);
-	animSys.midi().addItem(176, 3, "objectScale", 4, 1);
-	animSys.midi().addItem(176, 4, "motionSpeed", 0.2, 0.005);
-	animSys.midi().addItem(176, 5, "scaleX", 4, 1);
-	animSys.midi().addItem(176, 6, "scaleY", 4, 1);
+	animSys.midi().addItem(186, 1, "colourIncrement", 40, 2);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 5, 5);
+	animSys.midi().addItem(186, 3, "objectScale", 4, 1);
+	animSys.midi().addItem(186, 4, "motionSpeed", 0.2, 0.005);
+	animSys.midi().addItem(186, 5, "scaleX", 4, 1);
+	animSys.midi().addItem(186, 6, "scaleY", 4, 1);
 
-	animSys.midi().addItem(176, 9, "rotationSpeedX", 2, 0);
-	animSys.midi().addItem(176, 10, "rotationSpeedY", 2, 0);
-	animSys.midi().addItem(176, 11, "rotationSpeedZ", 2, 0);
+	animSys.midi().addItem(186, 9, "rotationSpeedX", 2, 0);
+	animSys.midi().addItem(186, 10, "rotationSpeedY", 2, 0);
+	animSys.midi().addItem(186, 11, "rotationSpeedZ", 2, 0);
 		
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 3, 1.6);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 22, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 23, "bloomStrength", 3, 1.6);
+	animSys.midi().addItem(186, 24, "bloomRadius", 1, 1);
 
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 1);
-	animSys.midi().addItem(176, 32, "lightIntensity", 20, 1);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 20, 1);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 1);
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 31, "autoRotateSpeed", 10, 1);
+	animSys.midi().addItem(186, 32, "lightIntensity", 20, 1);
+	animSys.midi().addItem(186, 39, "autoRotate", 1, 0);
+	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 1);
+	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 1);
+	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
 	animSys.midi().addItem(144, 108, "orbitReset", 1, 0);
 	
 	objectCount = 1;
@@ -431,31 +441,31 @@ function animation_5_setup()
 	var objectCounter = 0, oCounter=0, objectCount=0, lightZOffset = 0.2, lightingIntencity=1, lightIndex=0;
 	var pointPos = [0,0];
 	
-	animSys.add("Pulse Beams", 60, animation_5_setup, animation_5_animate, 85, 37, "S");
+	animSys.add("Pulse Beams", 60, animation_5_setup, animation_5_animate, 12, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("pixelMap", new pixelMaper());
 	animSys.addGlobalVar("cameraFOV", 100);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 			
-	animSys.midi().addItem(176, 1, "colourIncrement", 40, 10);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 50, 25);
-	animSys.midi().addItem(176, 3, "lineScale", 5, 0.5);
-	animSys.midi().addItem(176, 4, "pointScale", 5, 1);
-	animSys.midi().addItem(176, 5, "speed", 20, 1);
+	animSys.midi().addItem(186, 1, "colourIncrement", 40, 10);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 50, 25);
+	animSys.midi().addItem(186, 3, "lineScale", 5, 0.5);
+	animSys.midi().addItem(186, 4, "pointScale", 5, 1);
+	animSys.midi().addItem(186, 5, "speed", 20, 1);
 	
-	animSys.midi().addItem(176, 9, "orbitFlux", 2, 0.5);
-	animSys.midi().addItem(176, 10, "beamRotation", 5, 0.6);
+	animSys.midi().addItem(186, 9, "orbitFlux", 2, 0.5);
+	animSys.midi().addItem(186, 10, "beamRotation", 5, 0.6);
 	
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 3, 1.6);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 22, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 23, "bloomStrength", 3, 1.6);
+	animSys.midi().addItem(186, 24, "bloomRadius", 1, 1);
 
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 1);
-	animSys.midi().addItem(176, 32, "lightIntensity", 20, 1);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 20, 20);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 0);
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 31, "autoRotateSpeed", 10, 1);
+	animSys.midi().addItem(186, 32, "lightIntensity", 20, 1);
+	animSys.midi().addItem(186, 39, "autoRotate", 1, 0);
+	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 20);
+	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 0);
+	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
 	animSys.midi().addItem(144, 108, "orbitReset", 1, 0);
 	
 
@@ -482,7 +492,7 @@ function animation_6_setup()
 	var genObject, localScreenRange=[450,150,400];
 	
 
-	animSys.add("Grid Test", 60, animation_6_setup, animation_6_animate, 86, 37, "S");
+	animSys.add("Grid Test", 60, animation_6_setup, animation_6_animate, 13, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("pixelMap", new pixelMaper());
 	animSys.addGlobalVar("cIndex", 0);
@@ -491,27 +501,27 @@ function animation_6_setup()
 	animSys.addGlobalVar("cameraFOV", 100);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 	
-	animSys.midi().addItem(176, 1, "colourIncrement", 50, 2);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 100, 25);
+	animSys.midi().addItem(186, 1, "colourIncrement", 50, 2);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 100, 25);
 
-	animSys.midi().addItem(176, 3, "lineWidth", 3, 3);
-	animSys.midi().addItem(176, 4, "upSpeedScaler", 2, 0.09);
-	animSys.midi().addItem(176, 5, "forwardSpeedScaler", 2, 0.2);
+	animSys.midi().addItem(186, 3, "lineWidth", 3, 3);
+	animSys.midi().addItem(186, 4, "upSpeedScaler", 2, 0.09);
+	animSys.midi().addItem(186, 5, "forwardSpeedScaler", 2, 0.2);
 
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 5, 1);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 22, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 23, "bloomStrength", 5, 1);
+	animSys.midi().addItem(186, 24, "bloomRadius", 1, 1);
 	
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 2);
-	animSys.midi().addItem(176, 32, "lightIntensity", 5, 2);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
+	animSys.midi().addItem(186, 31, "autoRotateSpeed", 10, 2);
+	animSys.midi().addItem(186, 32, "lightIntensity", 5, 2);
+	animSys.midi().addItem(186, 39, "autoRotate", 1, 0);
 	
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 10, 0.15);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 0)
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 10, 0.15);
+	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 0)
+	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
 	
-	animSys.midi().addItem(176, 30, "Z_autoRotateSpeed", (Math.PI/180), 0);
-	animSys.midi().addItem(176, 38, "Z_autoRotate", 1, 0);
+	animSys.midi().addItem(186, 30, "Z_autoRotateSpeed", (Math.PI/180), 0);
+	animSys.midi().addItem(186, 38, "Z_autoRotate", 1, 0);
 	
 	
 	//Lines on the Z plane
@@ -591,7 +601,7 @@ function animation_7_setup()
 	var minPointRadius=20, maxPointRadius = 50, pointRadius=0, pointMotionSpeed=0, pointMotionTrack=0, pointVectors = [0,0];
 	var genObject, custTriangles, tempPoint;
 	
-	animSys.add("Flying Points", 60, animation_7_setup, animation_7_animate, 87, 37, "S");
+	animSys.add("Flying Points", 60, animation_7_setup, animation_7_animate, 14, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("cameraFOV", 100);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
@@ -603,30 +613,30 @@ function animation_7_setup()
 	animSys.addGlobalVar("innerCIndex", 0);
 	animSys.timers().addTimer("puslerTimer");
 	
-	animSys.midi().addItem(176, 1, "colourIncrement", 20, 2);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 20, 3.6);
-	animSys.midi().addItem(176, 3, "pointRadius", 5, 0.7);
-	animSys.midi().addItem(176, 4, "pointSize", 5, 1);
-	animSys.midi().addItem(176, 5, "pointRotationScale", 10, 1);
+	animSys.midi().addItem(186, 1, "colourIncrement", 20, 2);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 20, 3.6);
+	animSys.midi().addItem(186, 3, "pointRadius", 5, 0.7);
+	animSys.midi().addItem(186, 4, "pointSize", 5, 1);
+	animSys.midi().addItem(186, 5, "pointRotationScale", 10, 1);
 
-	animSys.midi().addItem(176, 9, "layerSpeed", 50, 11);
-	animSys.midi().addItem(176, 10, "pointSpeed", 50, 0);
+	animSys.midi().addItem(186, 9, "layerSpeed", 50, 11);
+	animSys.midi().addItem(186, 10, "pointSpeed", 50, 0);
 	
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 3, 1.6);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 22, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 23, "bloomStrength", 3, 1.6);
+	animSys.midi().addItem(186, 24, "bloomRadius", 1, 1);
 	
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 10, 2);	
+	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 10, 2);	
 
-	animSys.midi().addItem(176, 30, "Z_autoRotateSpeed", 2*(Math.PI/180), 0);
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 5);
-	animSys.midi().addItem(176, 32, "lightIntensity", 5, 3);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 0)
-	animSys.midi().addItem(176, 38, "Z_autoRotate", 1, 0);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
+	animSys.midi().addItem(186, 30, "Z_autoRotateSpeed", 2*(Math.PI/180), 0);
+	animSys.midi().addItem(186, 31, "autoRotateSpeed", 10, 5);
+	animSys.midi().addItem(186, 32, "lightIntensity", 5, 3);
+	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 0)
+	animSys.midi().addItem(186, 38, "Z_autoRotate", 1, 0);
+	animSys.midi().addItem(186, 39, "autoRotate", 1, 0);
 	
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
-	animSys.midi().addItem(176, 48, "firePulser", 1, 0);
+	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 48, "firePulser", 1, 0);
 	
 	for(layerCounter=0; layerCounter<numberOfLayers; layerCounter++)
 	{
@@ -702,32 +712,32 @@ function animation_8_setup()
 	var objectCounter = 0, objectCount = 10;
 	var localScreenRanges = [200, 100, 100];
 	
-	animSys.add("Boxed Faces", 60, animation_8_setup, animation_8_animate, 88, 37, "S");
+	animSys.add("Boxed Faces", 60, animation_8_setup, animation_8_animate, 15, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("cameraFOV", 45);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 	
-	animSys.midi().addItem(176, 1, "colourIncrement", 10, 1);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 100, 3);
-	animSys.midi().addItem(176, 3, "radiusScaler", 5, 2);
+	animSys.midi().addItem(186, 1, "colourIncrement", 10, 1);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 100, 3);
+	animSys.midi().addItem(186, 3, "radiusScaler", 5, 2);
 	
-	animSys.midi().addItem(176, 9, "layerSpeed", 1, 0.01);
-	animSys.midi().addItem(176, 10, "faceSpeed", 1*(Math.PI/180), 0.001);
+	animSys.midi().addItem(186, 9, "layerSpeed", 1, 0.01);
+	animSys.midi().addItem(186, 10, "faceSpeed", 1*(Math.PI/180), 0.001);
 		
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 3, 1.6);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 22, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 23, "bloomStrength", 3, 1.6);
+	animSys.midi().addItem(186, 24, "bloomRadius", 1, 1);
 	
-	animSys.midi().addItem(176, 17, "xRotate", 2, 0);
-	animSys.midi().addItem(176, 18, "yRotate", 2, 0);
-	animSys.midi().addItem(176, 19, "zRotate", 2, 0);
+	animSys.midi().addItem(186, 17, "xRotate", 2, 0);
+	animSys.midi().addItem(186, 18, "yRotate", 2, 0);
+	animSys.midi().addItem(186, 19, "zRotate", 2, 0);
 	
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 1);
-	animSys.midi().addItem(176, 32, "lightIntensity", 20, 1);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 20, 20);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 0);
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 31, "autoRotateSpeed", 10, 1);
+	animSys.midi().addItem(186, 32, "lightIntensity", 20, 1);
+	animSys.midi().addItem(186, 39, "autoRotate", 1, 0);
+	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 20);
+	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 0);
+	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
 	
 	for(objectCounter=0; objectCounter<objectCount; objectCounter++)
 	{
@@ -752,34 +762,34 @@ function animation_9_setup()
 	var objectCounter = 0, objectCount = 5;
 	var localScreenRanges = [200, 100, 100];
 	
-	animSys.add("Jelly Fish", 60, animation_9_setup, animation_9_animate, 71, 37, "S");
+	animSys.add("Jelly Fish", 60, animation_9_setup, animation_9_animate, 16, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("cameraFOV", 100);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 	
-	animSys.midi().addItem(176, 1, "colourIncrement", 10, 1);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 100, 37);
-	animSys.midi().addItem(176, 3, "radiusScaler", 5, 1);
+	animSys.midi().addItem(186, 1, "colourIncrement", 10, 1);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 100, 37);
+	animSys.midi().addItem(186, 3, "radiusScaler", 5, 1);
 	
-	animSys.midi().addItem(176, 9, "layerSpeed", 2, 1.2);
-	animSys.midi().addItem(176, 10, "faceSpeed", 5, 2);
-	animSys.midi().addItem(176, 11, "widthScale", 10, 2);
-	animSys.midi().addItem(176, 12, "heightScale", 10, 2);
+	animSys.midi().addItem(186, 9, "layerSpeed", 2, 1.2);
+	animSys.midi().addItem(186, 10, "faceSpeed", 5, 2);
+	animSys.midi().addItem(186, 11, "widthScale", 10, 2);
+	animSys.midi().addItem(186, 12, "heightScale", 10, 2);
 		
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 3, 1);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 22, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 23, "bloomStrength", 3, 1);
+	animSys.midi().addItem(186, 24, "bloomRadius", 1, 1);
 	
-	animSys.midi().addItem(176, 17, "xRotate", 2, 0);
-	animSys.midi().addItem(176, 18, "yRotate", 2, 0);
-	animSys.midi().addItem(176, 19, "zRotate", 2, 0);
+	animSys.midi().addItem(186, 17, "xRotate", 2, 0);
+	animSys.midi().addItem(186, 18, "yRotate", 2, 0);
+	animSys.midi().addItem(186, 19, "zRotate", 2, 0);
 	
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 1);
-	animSys.midi().addItem(176, 32, "lightIntensity", 20, 1);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 20, 2);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 1);
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 31, "autoRotateSpeed", 10, 1);
+	animSys.midi().addItem(186, 32, "lightIntensity", 20, 1);
+	animSys.midi().addItem(186, 39, "autoRotate", 1, 0);
+	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 2);
+	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 1);
+	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
 	
 	for(objectCounter=0; objectCounter<objectCount; objectCounter++)
 	{
@@ -802,41 +812,41 @@ function animation_10_setup()
 	var zStart = 0;
 	var localScreenRanges = [200, 100, 100];
 	
-	animSys.add("Polly Trails", 60, animation_10_setup, animation_10_animate, 72, 37, "S");
+	animSys.add("Polly Trails", 60, animation_10_setup, animation_10_animate, 17, 37, "S");
 	setUpScene(animSys.scene(), animSys.lights());
 	animSys.addGlobalVar("cameraFOV", 80);
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 	
-	animSys.midi().addItem(176, 1, "colourIncrement", 10, 4);
-	animSys.midi().addItem(176, 2, "subColourIncrement", 100, 4);
-	animSys.midi().addItem(176, 3, "radiusScaler", 5, 1);
-	animSys.midi().addItem(176, 4, "trailSpeed", 10, 1);
-	animSys.midi().addItem(176, 5, "trailDensityScale", 10, 3);
-	animSys.midi().addItem(176, 6, "trailLengthScale", 20, 5);
-	animSys.midi().addItem(176, 7, "trailThicknessScale", 10, 3);
+	animSys.midi().addItem(186, 1, "colourIncrement", 10, 4);
+	animSys.midi().addItem(186, 2, "subColourIncrement", 100, 4);
+	animSys.midi().addItem(186, 3, "radiusScaler", 5, 1);
+	animSys.midi().addItem(186, 4, "trailSpeed", 10, 1);
+	animSys.midi().addItem(186, 5, "trailDensityScale", 10, 3);
+	animSys.midi().addItem(186, 6, "trailLengthScale", 20, 5);
+	animSys.midi().addItem(186, 7, "trailThicknessScale", 10, 3);
 		
-	animSys.midi().addItem(176, 9, "innerXRotate", 2, 0);
-	animSys.midi().addItem(176, 10, "innerYRotate", 2, 0);
-	animSys.midi().addItem(176, 11, "innerZRotate", 2, 0);
+	animSys.midi().addItem(186, 9, "innerXRotate", 2, 0);
+	animSys.midi().addItem(186, 10, "innerYRotate", 2, 0);
+	animSys.midi().addItem(186, 11, "innerZRotate", 2, 0);
 	
-	animSys.midi().addItem(176, 17, "xRotate", 2, 0);
-	animSys.midi().addItem(176, 18, "yRotate", 2, 0);
-	animSys.midi().addItem(176, 19, "zRotate", 2, 0);
+	animSys.midi().addItem(186, 17, "xRotate", 2, 0);
+	animSys.midi().addItem(186, 18, "yRotate", 2, 0);
+	animSys.midi().addItem(186, 19, "zRotate", 2, 0);
 
-	animSys.midi().addItem(176, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(176, 23, "bloomStrength", 3, 1);
-	animSys.midi().addItem(176, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 22, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 23, "bloomStrength", 3, 1);
+	animSys.midi().addItem(186, 24, "bloomRadius", 1, 1);
 	
-	animSys.midi().addItem(176, 31, "autoRotateSpeed", 10, 1);
-	animSys.midi().addItem(176, 32, "lightIntensity", 20, 1);
-	animSys.midi().addItem(176, 39, "autoRotate", 1, 0);
-	animSys.midi().addItem(176, 25, "cameraMotionSpeed", 20, 20);
-	animSys.midi().addItem(176, 33, "directCamera_LOCK", 1, 0);
-	animSys.midi().addItem(176, 41, "directCamera", 1, 0);
+	animSys.midi().addItem(186, 31, "autoRotateSpeed", 10, 1);
+	animSys.midi().addItem(186, 32, "lightIntensity", 20, 1);
+	animSys.midi().addItem(186, 39, "autoRotate", 1, 0);
+	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 20);
+	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 0);
+	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
 	
-	animSys.midi().addItem(176, 42, "radiusFire", 1, 0);
-	animSys.midi().addItem(176, 43, "trailDensityFire", 1, 0);
-	animSys.midi().addItem(176, 44, "trailLengthFire", 1, 0);
+	animSys.midi().addItem(186, 42, "radiusFire", 1, 0);
+	animSys.midi().addItem(186, 43, "trailDensityFire", 1, 0);
+	animSys.midi().addItem(186, 44, "trailLengthFire", 1, 0);
 	
 	for(objectCounter=0; objectCounter<objectCount; objectCounter++)
 	{
@@ -1347,11 +1357,12 @@ function globalControls()
 	for(aIndex=0; aIndex<animSys.animations.length; aIndex++)
 	{
 		//GLobal Animation controls
-		animSys.midiControls[aIndex].addItem(176, 107, "NextAnimation", 1, 0);
-		animSys.midiControls[aIndex].addItem(176, 106, "PreviousAnimation", 1, 0);
+		///NOTE ON BUTTONS USE CHANNEL 154
+		animSys.midiControls[aIndex].addItem(154, 19, "NextAnimation", 1, 0);
+		animSys.midiControls[aIndex].addItem(154, 18, "PreviousAnimation", 1, 0);
 		for(controlIndex=0; controlIndex<animSys.animations.length; controlIndex++)
 		{
-			animSys.midiControls[aIndex].addItem(144, animSys.animations[controlIndex].padAssign, animSys.animations[controlIndex].name, 1, 0);
+			animSys.midiControls[aIndex].addItem(154, animSys.animations[controlIndex].padAssign, animSys.animations[controlIndex].name, 1, 0);
 		}
 	}
 	
