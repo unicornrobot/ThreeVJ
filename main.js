@@ -20,6 +20,10 @@ import threeBoxFaces from './BoilerPlate/threeBoxFaces.js';
 import threeJellyFish from './BoilerPlate/threeJellyFish.js';
 import threePollyTrails from './BoilerPlate/threePollyTrails.js';
 
+//webcam
+import WebcamProcessor from './BoilerPlate/webcamProcessor.js';
+
+
 //-----------------		MIDI INPUT SET UP		-----------------
 /*
 REPLACE "Launch Control XL" with whatever your MIDI controller is called when you 1st load this app in the bedbug console: eg this is output from mine:
@@ -34,6 +38,9 @@ your debug will be completely different
 var primaryMidiControler = ["X-TOUCH MINI",""];		
 
 //---------------------------------------------------------------
+
+///WEBCAM/////
+var webcamProcessor;
 
 //Scence Set up
 const scene = new THREE.Scene();
@@ -132,6 +139,17 @@ function setUp()
 	{
 	};
 	*/
+
+// Initialize webcam processor and start webcam
+webcamProcessor = new WebcamProcessor('webcamVideo'); // Use the ID of the video element
+webcamProcessor.startWebcam().then(success => {
+	if (success) {
+		console.log("Webcam started successfully");
+	} else {
+		console.log("Failed to start webcam");
+	}
+});
+
 	
 	//Camera location preset
 	cameraLookingAt = camera.position;
@@ -1254,6 +1272,56 @@ function restoreMaterial( obj )
 
 function animate() 
 {
+
+//WEBCAM
+// Get webcam data and use it to influence parameters
+if (webcamProcessor) {
+	const avgBrightness = webcamProcessor.getAverageBrightness();
+	// Map the brightness value (0-1) to a MIDI control value (0-127)
+	const brightnessControlValue = Math.round(avgBrightness * 127);
+
+	// Example: Map brightness to colourIncrement in the current animation
+	// You'll need to find the appropriate control name for the current animation.
+	// A more robust approach would be to add specific webcam controls to each animation's midi map.
+
+	// For now, let's assume we want to influence a parameter named "brightness"
+	// You would need to add this item to the midi map in each animation's setup function
+	// e.g., animSys.midi().addItem(0, 0, "brightness", 127, 0); // Using dummy MIDI channel and CC ID
+	// if (animSys.midi().findControlByName("brightness") !== -1) {
+	//     animSys.midi().setValue("brightness", brightnessControlValue);
+	// }
+
+	// Alternatively, directly influence animation parameters based on the current animation
+	const currentAnimation = animSys.animations[animSys.current];
+	if (currentAnimation && currentAnimation.name === "Flying Points") {
+		 // Example: Influence point size based on brightness for "Flying Points"
+		 // Assuming "pointSize" MIDI control exists and max value is 5
+		 const pointSizeControlValue = Math.round(avgBrightness * 5);
+		 if (animSys.midi().findControlByName("pointSize") !== -1) {
+			  animSys.midi().setValue("pointSize", pointSizeControlValue);
+		 }
+	}
+	 if (currentAnimation && currentAnimation.name === "Jelly Fish") {
+		 // Example: Influence widthScale based on brightness for "Jelly Fish"
+		 // Assuming "widthScale" MIDI control exists and max value is 10
+		 const widthScaleControlValue = Math.round(avgBrightness * 10);
+		  if (animSys.midi().findControlByName("widthScale") !== -1) {
+			  animSys.midi().setValue("widthScale", widthScaleControlValue);
+		 }
+	}
+	 if (currentAnimation && currentAnimation.name === "Polly Trails") {
+		 // Example: Influence trailDensityScale based on brightness for "Polly Trails"
+		 // Assuming "trailDensityScale" MIDI control exists and max value is 10
+		 const trailDensityScaleControlValue = Math.round(avgBrightness * 10);
+		  if (animSys.midi().findControlByName("trailDensityScale") !== -1) {
+			  animSys.midi().setValue("trailDensityScale", trailDensityScaleControlValue);
+		 }
+	}
+	// Add similar logic for other animations and parameters
+}
+
+
+
 	var localObjectCounter;
 	
 	//check globaly assigned controls
