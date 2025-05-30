@@ -143,8 +143,8 @@ function setUp()
 	document.onkeypress = function(e) 
 	{
 		//CHANGE SCENES WITH KEYS 1 - 10
-		animSys.gotoIndex(camera, e.key);//0-10
-		renderScene.scene = animSys.scene();
+		//animSys.gotoIndex(camera, e.key);//0-10
+		//renderScene.scene = animSys.scene();
 
 
 		//OPTIONAL USE:	Used to control and configure each animations automatic camera director
@@ -278,7 +278,9 @@ function animation_2_setup()
 	
 	animSys.midi().addItem(186, 17, "autoRotateSpeed", 10, 1);
 	animSys.midi().addItem(186, 18, "lightIntensity", 20, 1);
-	animSys.midi().addItem(154, 0, "autoRotate", 1, 0); //knob 1 push 
+	animSys.midi().addItem(154, 0, "autoRotate", 1, 0); //knob 1 push
+	
+	//not used yet
 	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 20);
 	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 0);
 	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
@@ -364,6 +366,8 @@ function animation_3_setup()
 	animSys.midi().addItem(186, 17, "autoRotateSpeed", 10, 1);
 	animSys.midi().addItem(186, 18, "lightIntensity", 20, 1);
 	animSys.midi().addItem(154, 0, "autoRotate", 1, 0); //knob 1 push
+
+	//not used yet
 	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 1);
 	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 0);
 	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
@@ -398,24 +402,27 @@ function animation_4_setup()
 	animSys.orbitalControls()[0] = [camera.position.x, camera.position.y, camera.position.z];
 			
 	animSys.midi().addItem(186, 1, "colourIncrement", 40, 2);
-	animSys.midi().addItem(186, 2, "subColourIncrement", 5, 5);
-	animSys.midi().addItem(186, 3, "objectScale", 4, 1);
-	animSys.midi().addItem(186, 4, "motionSpeed", 0.2, 0.005);
-	animSys.midi().addItem(186, 5, "scaleX", 4, 1);
-	animSys.midi().addItem(186, 6, "scaleY", 4, 1);
+	animSys.midi().addItem(186, 3, "subColourIncrement", 5, 5);
+	animSys.midi().addItem(186, 4, "objectScale", 4, 1);
+	animSys.midi().addItem(186, 5, "motionSpeed", 0.2, 0.005);
+	animSys.midi().addItem(186, 6, "scaleX", 4, 1);
+	animSys.midi().addItem(186, 7, "scaleY", 4, 1);
 
-	animSys.midi().addItem(186, 9, "rotationSpeedX", 2, 0);
-	animSys.midi().addItem(186, 10, "rotationSpeedY", 2, 0);
-	animSys.midi().addItem(186, 11, "rotationSpeedZ", 2, 0);
+	animSys.midi().addItem(186, 11, "rotationSpeedX", 2, 0);
+	animSys.midi().addItem(186, 12, "rotationSpeedY", 2, 0);
+	animSys.midi().addItem(186, 13, "rotationSpeedZ", 2, 0);
 		
-	animSys.midi().addItem(186, 22, "bloomThreshold", 1, 0);
-	animSys.midi().addItem(186, 23, "bloomStrength", 3, 1.6);
-	animSys.midi().addItem(186, 24, "bloomRadius", 1, 1);
+	animSys.midi().addItem(186, 14, "bloomThreshold", 1, 0);
+	animSys.midi().addItem(186, 9, "bloomStrength", 3, 1.6);
+	animSys.midi().addItem(186, 15, "bloomRadius", 1, 1);
 
-	animSys.midi().addItem(186, 31, "autoRotateSpeed", 10, 1);
-	animSys.midi().addItem(186, 32, "lightIntensity", 20, 1);
-	animSys.midi().addItem(186, 39, "autoRotate", 1, 0);
-	animSys.midi().addItem(186, 25, "cameraMotionSpeed", 20, 1);
+	animSys.midi().addItem(186, 7, "autoRotateSpeed", 10, 1);
+	animSys.midi().addItem(186, 10, "lightIntensity", 20, 1);
+
+	animSys.midi().addItem(154, 0, "autoRotate", 1, 0);//knob 1 push
+
+	//not yet used
+	animSys.midi().addItem(186, 18, "cameraMotionSpeed", 20, 1);
 	animSys.midi().addItem(186, 33, "directCamera_LOCK", 1, 1);
 	animSys.midi().addItem(186, 41, "directCamera", 1, 0);
 	animSys.midi().addItem(144, 108, "orbitReset", 1, 0);

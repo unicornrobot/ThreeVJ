@@ -1,6 +1,16 @@
 
 //Note ON events are  0[144+MIDI CHANEL-1] 1[KEY ID] 2[VELOCITY]
 //Note OFF events are 0[128+MIDI CHANEL-1] 1[KEY ID] 2[VELOCITY] 
+
+//XTOUCH MINI 
+//186 for CC - control codes 
+//154 for Note ON
+//138 for Note off
+
+//Knobs 1-8 and 11 - 18
+//slider 9 and 10
+//buttons 8-15 / 16-23
+
 class MIDIMapper
 {	
 	constructor()
